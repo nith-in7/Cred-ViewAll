@@ -83,20 +83,25 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         icon: Icon(Icons.keyboard_arrow_down_rounded)),
                   ],
                 ),
-                LocalHeroScope(
-                  duration: const Duration(milliseconds: 300),
-                  curve: Curves.easeInOut,
-                  child: ListView.builder(
+                ListView.builder(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: 2,
                     shrinkWrap: true,
-                    itemBuilder: (context, index) => isGridView
-                        ? Titledgridview(title: "MONEY")
-                        : Titledlistview(
-                            title: "MONEY",
-                          ),
-                  ),
-                )
+                    itemBuilder: (context, index) => AnimatedSwitcher(
+                          duration: Duration(milliseconds: 1000),
+                          child: isGridView
+                              ? LocalHeroScope(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                  child: Titledgridview(title: "MONEY"))
+                              : LocalHeroScope(
+                                  duration: const Duration(milliseconds: 300),
+                                  curve: Curves.easeInOut,
+                                  child: Titledlistview(
+                                    title: "MONEY",
+                                  ),
+                                ),
+                        ))
               ],
             ),
           ),
