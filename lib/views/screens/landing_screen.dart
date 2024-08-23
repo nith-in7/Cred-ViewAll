@@ -41,10 +41,8 @@ class _LandingScreenState extends State<LandingScreen> {
             NeoPopButton(
               onTapDown: () => HapticFeedback.vibrate(),
               onTapUp: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const CategoryScreen()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CategoryScreen()));
               },
               color: Colors.white,
               child: Padding(
