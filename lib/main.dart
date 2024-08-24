@@ -1,10 +1,11 @@
 import 'package:cred_assign/views/screens/landing_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,32 +25,30 @@ class MyApp extends StatelessWidget {
             primaryContainer: Colors.white,
           ),
           brightness: Brightness.dark,
-          switchTheme: SwitchTheme.of(context).copyWith(
-              trackOutlineColor: WidgetStatePropertyAll(Colors.white),
-              thumbColor: WidgetStatePropertyAll(Colors.white)),
           textTheme: GoogleFonts.notoSerifTextTheme().copyWith(
-              bodyLarge: TextStyle(
-                color: Colors.white,
-                fontSize: 20.sp,
-              ),
-              labelLarge: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+            bodyLarge: TextStyle(
+              color: Colors.white,
+              fontSize: 22.sp,
+            ),
+            bodyMedium: TextStyle(
+                color: Colors.black,
                 fontSize: 17.sp,
-              ),
-              labelMedium: TextStyle(
-                color: Color.fromARGB(255, 86, 86, 86),
-                fontWeight: FontWeight.w600,
-                fontSize: 15.sp,
-              ),
-              titleLarge: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22.sp),
-              bodyMedium: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17.sp,
-                  fontWeight: FontWeight.bold)),
+                fontWeight: FontWeight.bold),
+            bodySmall: TextStyle(
+                color: Theme.of(context).colorScheme.secondary,
+                fontSize: 17.sp,
+                fontWeight: FontWeight.bold),
+            labelLarge: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 16.sp,
+            ),
+            labelMedium: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+              fontWeight: FontWeight.w600,
+              fontSize: 14.sp,
+            ),
+          ),
           useMaterial3: true,
         ),
         home: const LandingScreen(),

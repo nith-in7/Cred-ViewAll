@@ -1,19 +1,24 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cred_assign/providers/selected_item_provider.dart';
 import 'package:cred_assign/views/screens/category_screen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:neopop/neopop.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-class LandingScreen extends StatefulWidget {
+class LandingScreen extends ConsumerStatefulWidget {
   const LandingScreen({super.key});
 
   @override
-  State<LandingScreen> createState() => _LandingScreenState();
+  ConsumerState<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _LandingScreenState extends State<LandingScreen> {
+class _LandingScreenState extends ConsumerState<LandingScreen> {
   @override
   Widget build(BuildContext context) {
+    final selectedItem = ref.watch(selectedItemProvider);
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 18.sp, vertical: 18.sp),
@@ -22,14 +27,32 @@ class _LandingScreenState extends State<LandingScreen> {
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Image.asset("assets/cred_logo.png", width: 24.w),
+            if (selectedItem == null)
+              Image.asset("assets/logo/cred_logo.png", width: 24.w)
+            else
+              CachedNetworkImage(
+                width: 20.w,
+                imageUrl: selectedItem.iconUrl,
+              ),
             SizedBox(height: 30.sp),
-            Text("CRED mint",
+            Text.rich(
+                TextSpan(children: [
+                  const TextSpan(
+                    text: "CRED ",
+                  ),
+                  if (selectedItem != null)
+                    TextSpan(
+                        text: selectedItem.name,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(color: Colors.white))
+                ]),
                 textAlign: TextAlign.start,
                 style: Theme.of(context)
                     .textTheme
                     .bodyMedium!
-                    .copyWith(color: Colors.white)),
+                    .copyWith(color: Colors.white, fontSize: 19.sp)),
             SizedBox(height: 12.sp),
             Text("grow your savings.",
                 textAlign: TextAlign.start,
@@ -41,8 +64,12 @@ class _LandingScreenState extends State<LandingScreen> {
             NeoPopButton(
               onTapDown: () => HapticFeedback.vibrate(),
               onTapUp: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => CategoryScreen()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const CategoryScreen(
+                              isGridView: false,
+                            )));
               },
               color: Colors.white,
               child: Padding(
